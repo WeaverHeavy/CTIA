@@ -1,6 +1,7 @@
 # Cyber Threat Intelligence Appliance (CTIA)
 
-GOALS
+GOALS:
+
 Create a free, expandable, open-source, easily/rapidly deployable, Intelligence appliance for CSIRTs, CERTs, SOCs, etc.
 
 Utilize docker containers or a private cloud setup that includes instances of well documented/supported cyber threat intelligence tools
