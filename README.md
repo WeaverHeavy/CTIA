@@ -1,3 +1,4 @@
+![draft diagram](https://raw.githubusercontent.com/WeaverHeavy/CTIA/master/Draft%20Diagram.png)
 # Cyber Threat Intelligence Appliance (CTIA)
 
 GOALS:
