@@ -2,7 +2,7 @@
 
 #update and upgrade
 sudo apt update
-sudo apt dist-upgrade
+sudo apt dist-upgrade -y
 
 #First, add the GPG key for the official Docker repository to the system:
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
