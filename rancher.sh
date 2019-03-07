@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #update and upgrade
-sudo apt update
-sudo apt dist-upgrade -y
+#sudo apt update
+#sudo apt dist-upgrade -y
 
 #First, add the GPG key for the official Docker repository to the system:
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -12,7 +12,7 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 
 #Make sure you are about to install from the Docker repo instead of the default Ubuntu 18.04 repo:
 apt-cache policy docker-ce
-
+sudo apt update
 #Finally, install Docker:
 sudo apt-get install -y docker-ce
 
