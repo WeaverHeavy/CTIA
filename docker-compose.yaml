@@ -1,8 +1,19 @@
 version: "3"
 
 services:
-  namenode:
-    image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
+  Kali:
+    image: kalilinux/kali-linux-docker
+    volumes:
+      - kali:/
+    environment:
+      - CLUSTER_NAME=CTIA
+    env_file:
+      #- ./hadoop-hive.env
+    ports:
+      #- "50070:50070"
+      #- "vnc"
+  Mattermost:
+    image: mattermost/mattermost-prod-db
     volumes:
       - namenode:/hadoop/dfs/name
     environment:
@@ -11,8 +22,8 @@ services:
       - ./hadoop-hive.env
     ports:
       - "50070:50070"
-  datanode:
-    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+  MISP:
+    image: harvarditsecurity/misp
     volumes:
       - datanode:/hadoop/dfs/data
     env_file:
@@ -22,7 +33,7 @@ services:
     ports:
       - "50075:50075"
   hive-server:
-    image: bde2020/hive:2.3.2-postgresql-metastore
+    image: thehiveproject/cortex
     env_file:
       - ./hadoop-hive.env
     environment:
@@ -30,8 +41,8 @@ services:
       SERVICE_PRECONDITION: "hive-metastore:9083"
     ports:
       - "10000:10000"
-  hive-metastore:
-    image: bde2020/hive:2.3.2-postgresql-metastore
+  ejabberd:
+    image: rroemhild/ejabberd
     env_file:
       - ./hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
@@ -49,3 +60,20 @@ services:
 volumes:
   namenode:
   datanode:
+
+
+#Kali
+docker pull kalilinux/kali-linux-docker &&
+#Mattermost
+docker pull mattermost/mattermost-prod-db &&
+#MISP
+docker pull harvarditsecurity/misp &&
+#Cortex
+docker pull thehiveproject/cortex &&
+#ejabberd
+docker pull rroemhild/ejabberd &&
+#FreeNAS
+#Cuckoo
+docker pull blacktop/cuckoo &&
+#taxii
+docker pull floatingghost/misp-taxii-server

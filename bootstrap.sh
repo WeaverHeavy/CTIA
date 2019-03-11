@@ -1,12 +1,15 @@
 #!/bin/bash
 
-#note, this does not work comepletely yet
+#create an administrator password for the deployment services
+echo "please create and administrator password for the deployment"
+read password
+echo "your password is" |echo $password >> password.txt
 
-#update and upgrade
+#Update and upgrade Ubuntu
 sudo apt update &&
 sudo apt dist-upgrade -y &&
 
-#First, add the GPG key for the official Docker repository to the system:
+#Add the GPG key for the official Docker repository to the system:
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - &&
 
 #Add the Docker repository to APT sources:
@@ -21,39 +24,71 @@ sudo apt-get install -y docker-ce &&
 #Check that it’s running:
 sudo systemctl status docker &&
 
+#Build misp container
+docker rmi harvarditsecurity/misp
+docker build \
+    --rm=true --force-rm=true \
+    --build-arg MYSQL_MISP_PASSWORD=$password \
+    --build-arg POSTFIX_RELAY_HOST=localhost \
+    --build-arg MISP_FQDN=localhost \
+    --build-arg MISP_EMAIL=admin@localhost \
+    -t harvarditsecurity/misp container
 
-#currently evaluating whether or not to use rancher or portainer at this point in time
-
-#Rancher
-#sudo docker run -d --restart=unless-stopped \
-#-p 80:80 -p 443:443 \
-#rancher/rancher:latest
-
-#Portainer
+#Portainer docker installation
 docker volume create portainer_data
 docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
 
 #download containers
 
-docker pull kalilinux/kali-linux-docker #Kali
-docker pull mattermost/mattermost-prod-db #Mattermost
-docker pull harvarditsecurity/misp #MISP
-docker pull thehiveproject/cortex #Cortex
-docker pull rroemhild/ejabberd #ejabberd
+#Kali
+docker pull kalilinux/kali-linux-docker &&
+#Mattermost
+docker pull mattermost/mattermost-prod-db &&
+#MISP
+docker pull harvarditsecurity/misp &&
+
+#Cortex
+docker pull thehiveproject/cortex &&
+#ejabberd
+docker pull rroemhild/ejabberd &&
 #FreeNAS
 #Cuckoo
+docker pull blacktop/cuckoo &&
+#taxii
+docker pull floatingghost/misp-taxii-server
 #Openvpn
 #YETI
 #FAME
-#stix/taxii
 #iTDS
 #Logstash
 #Elasticsearch
 #Kibana
 
 
-#enable running docker without sudo
-#sudo gpasswd -a $USER docker
 
+
+
+## start booting shit
+
+
+
+
+
+#MISP DB
+docker run -it --rm \
+    -v $docker-root/misp-db:/var/lib/mysql \
+    harvarditsecurity/misp /init-db
+
+#run MISP
+docker run -it -d \
+    -p 443:443 \
+    -p 8001:8001 \
+    -p 3306:3306 \
+    -v $docker-root/misp-db:/var/lib/mysql \
+    harvarditsecurity/misp
+
+#enable running docker without sudo
+sudo gpasswd -a $USER docker
+#start the containers
 sudo docker-compose up
 exit
