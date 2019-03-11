@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#note, this does not work comepletely yet
+
 #update and upgrade
 sudo apt update &&
 sudo apt dist-upgrade -y &&
@@ -19,22 +21,39 @@ sudo apt-get install -y docker-ce &&
 #Check that it’s running:
 sudo systemctl status docker &&
 
-#install Rancher
+
+#currently evaluating whether or not to use rancher or portainer at this point in time
+
+#Rancher
 #sudo docker run -d --restart=unless-stopped \
 #-p 80:80 -p 443:443 \
 #rancher/rancher:latest
-cd ~/
-docker pull kalilinux/kali-linux-docker
-docker pull mattermost/mattermost-prod-db
-docker pull harvarditsecurity/misp
-docker pull thehiveproject/cortex
-docker pull rroemhild/ejabberd
 
+#Portainer
+docker volume create portainer_data
+docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+
+#download containers
+
+docker pull kalilinux/kali-linux-docker #Kali
+docker pull mattermost/mattermost-prod-db #Mattermost
+docker pull harvarditsecurity/misp #MISP
+docker pull thehiveproject/cortex #Cortex
+docker pull rroemhild/ejabberd #ejabberd
+#FreeNAS
+#Cuckoo
+#Openvpn
+#YETI
+#FAME
+#stix/taxii
+#iTDS
+#Logstash
+#Elasticsearch
+#Kibana
 
 
 #enable running docker without sudo
-sudo gpasswd -a $USER docker
+#sudo gpasswd -a $USER docker
+
+sudo docker-compose up
 exit
-
-
-##### possibly just use docker to run all containers

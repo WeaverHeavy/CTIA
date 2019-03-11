@@ -1,6 +1,6 @@
 ![draft diagram](https://raw.githubusercontent.com/WeaverHeavy/CTIA/master/Draft%20Diagram.png)
 # Cyber Threat Intelligence Appliance (CTIA)
-
+# Note: this currently doesn't work
 GOALS:
 
 - Create a free, expandable, open-source, easily/rapidly deployable, Intelligence appliance for CSIRTs, CERTs, SOCs, etc.
