@@ -55,7 +55,19 @@ docker pull rroemhild/ejabberd &&
 #Cuckoo
 docker pull blacktop/cuckoo &&
 #taxii
+git clone https://github.com/MISP/MISP-Taxii-Server
+cd MISP-Taxii-Server
+pip3 install -r REQUIREMENTS.txt
 docker pull floatingghost/misp-taxii-server
+mysql -u [database user] -p
+# Enter Database password
+mysql> create database taxiiauth;
+mysql> create database taxiipersist;
+mysql> grant all on taxiiauth.* to 'taxii'@'%' identified by 'some_password';
+mysql> grant all on taxiipersist.* to 'taxii'@'%' identified by 'some_password';
+mysql> exit;
+cp config/config.default.yaml config/config.yaml
+
 #Openvpn
 #YETI
 #FAME
@@ -64,15 +76,7 @@ docker pull floatingghost/misp-taxii-server
 #Elasticsearch
 #Kibana
 
-
-
-
-
-## start booting shit
-
-
-
-
+# start booting shit
 
 #MISP DB
 docker run -it --rm \
