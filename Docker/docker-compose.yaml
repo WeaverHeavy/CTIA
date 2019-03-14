@@ -1,0 +1,79 @@
+version: "3"
+
+services:
+  Kali:
+    image: kalilinux/kali-linux-docker
+    volumes:
+      - kali:/
+    environment:
+      - CLUSTER_NAME=CTIA
+    env_file:
+      #- ./hadoop-hive.env
+    ports:
+      #- "50070:50070"
+      #- "vnc"
+  Mattermost:
+    image: mattermost/mattermost-prod-db
+    volumes:
+      - namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop-hive.env
+    ports:
+      - "50070:50070"
+  MISP:
+    image: harvarditsecurity/misp
+    volumes:
+      - datanode:/hadoop/dfs/data
+    env_file:
+      - ./hadoop-hive.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    ports:
+      - "50075:50075"
+  hive-server:
+    image: thehiveproject/cortex
+    env_file:
+      - ./hadoop-hive.env
+    environment:
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      SERVICE_PRECONDITION: "hive-metastore:9083"
+    ports:
+      - "10000:10000"
+  ejabberd:
+    image: rroemhild/ejabberd
+    env_file:
+      - ./hadoop-hive.env
+    command: /opt/hive/bin/hive --service metastore
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"
+    ports:
+      - "9083:9083"
+  hive-metastore-postgresql:
+    image: bde2020/hive-metastore-postgresql:2.3.0
+  presto-coordinator:
+    image: shawnzhu/prestodb:0.181
+    ports:
+      - "8080:8080"
+
+volumes:
+  namenode:
+  datanode:
+
+
+#Kali
+docker pull kalilinux/kali-linux-docker &&
+#Mattermost
+docker pull mattermost/mattermost-prod-db &&
+#MISP
+docker pull harvarditsecurity/misp &&
+#Cortex
+docker pull thehiveproject/cortex &&
+#ejabberd
+docker pull rroemhild/ejabberd &&
+#FreeNAS
+#Cuckoo
+docker pull blacktop/cuckoo &&
+#taxii
+docker pull floatingghost/misp-taxii-server
