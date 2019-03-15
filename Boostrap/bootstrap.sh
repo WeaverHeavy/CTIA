@@ -5,6 +5,11 @@ echo "please create and administrator password for the deployment"
 read password
 echo "your password is" |echo $password >> password.txt
 
+#create an administrator email for the deployment services
+echo "please create and administrator email for the deployment"
+read email
+echo "your email is" |echo $email >> password.txt
+
 #Update and upgrade Ubuntu
 sudo apt update &&
 sudo apt dist-upgrade -y &&
@@ -31,7 +36,7 @@ docker build \
     --build-arg MYSQL_MISP_PASSWORD=$password \
     --build-arg POSTFIX_RELAY_HOST=localhost \
     --build-arg MISP_FQDN=localhost \
-    --build-arg MISP_EMAIL=admin@localhost \
+    --build-arg MISP_EMAIL=$email \
     -t harvarditsecurity/misp container
 
 #Portainer docker installation
