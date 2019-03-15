@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#would like something here to check make sure user is on either centos or ubuntu
+#if ubuntu goto: line x etc...""
+
 #create an administrator password for the deployment services
 echo "please create and administrator password for the deployment"
 read password
@@ -47,18 +50,24 @@ docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v porta
 
 #Kali
 docker pull kalilinux/kali-linux-docker &&
+
 #Mattermost
 docker pull mattermost/mattermost-prod-db &&
+
 #MISP
 docker pull harvarditsecurity/misp &&
 
 #Cortex
 docker pull thehiveproject/cortex &&
+
 #ejabberd
 docker pull rroemhild/ejabberd &&
+
 #FreeNAS
+
 #Cuckoo
 docker pull blacktop/cuckoo &&
+
 #taxii
 git clone https://github.com/MISP/MISP-Taxii-Server
 cd MISP-Taxii-Server
@@ -74,11 +83,17 @@ mysql> exit;
 cp config/config.default.yaml config/config.yaml
 
 #Openvpn
+
 #YETI
+
 #FAME
+
 #iTDS
+
 #Logstash
+
 #Elasticsearch
+
 #Kibana
 
 # start booting shit
@@ -98,6 +113,8 @@ docker run -it -d \
 
 #enable running docker without sudo
 sudo gpasswd -a $USER docker
+
 #start the containers
 sudo docker-compose up
+
 exit
