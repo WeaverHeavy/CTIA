@@ -1,0 +1,1 @@
+not sure about the best way to bootstrap this, thinking of either having the user fill out a config file, or having a script prompt the user for input which can then get appended to said config file.
