@@ -1,0 +1,108 @@
+# This file allows you to run mattermost within your docker swarm mode cluster
+# for more informations check: https://docs.docker.com/engine/swarm/
+#
+# Simply run:
+#
+# `docker stack up [STACK NAME] -c docker-stack.yml`
+#
+# In this case `mattermost` is going to be stack name, so the command will be:
+#
+# `docker stack up mattermost -c docker-stack.yml`
+#
+# From now on all the services that belong to this stack will be prefixed with `mattermost_`
+# this file defines 3 services, these are going to be mattermost_db, mattermost_app and mattermost_web,
+# each of these names is the service's hostname as well, they can communicate
+# with each other easily by using the hostname instead of the ip or exposing ports to the host.
+#
+# As a side note, images tagged as latest are pulled by default,
+# that means there's no need to use `image:latest`
+#
+# use latest compose v3.3 file format for optimal compatibility with latest docker release and swarm features.
+# see https://docs.docker.com/compose/compose-file/compose-versioning/#version-3
+# and https://docs.docker.com/compose/compose-file/compose-versioning/#version-33
+# and https://docs.docker.com/compose/compose-file/compose-versioning/#upgrading
+
+version: '3.3'
+networks:
+  # network for App <-> DB transactions
+  mm-in:
+    driver: overlay
+    internal: true
+  # this network faces the outside world
+  mm-out:
+    driver: overlay
+    internal: false
+volumes:
+  mm-dbdata:
+services:
+  db:
+    # use official mattermost prod-db image
+    image: mattermost/mattermost-prod-db
+    networks:
+      - mm-in
+    volumes:
+      # use a named-volume for data persistency
+      - mm-dbdata:/var/lib/postgresql/data
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=mmuser_password
+      - POSTGRES_DB=mattermost
+      # uncomment the following to enable backup
+      # - AWS_ACCESS_KEY_ID=XXXX
+      # - AWS_SECRET_ACCESS_KEY=XXXX
+      # - WALE_S3_PREFIX=s3://BUCKET_NAME/PATH
+      # - AWS_REGION=us-east-1
+    deploy:
+      restart_policy:
+        condition: on-failure
+  app:
+    # use official mattermost prod-app image
+    image: mattermost/mattermost-prod-app:5.9.0
+    networks:
+      - mm-in
+      - mm-out
+    volumes:
+      - /var/lib/mattermost/config:/mattermost/config:rw
+      - /var/lib/mattermost/data:/mattermost/data:rw
+      - /var/lib/mattermost/logs:/mattermost/logs:rw
+      - /var/lib/mattermost/plugins:/mattermost/plugins:rw
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      # use service's hostname
+      - DB_HOST=db
+      # talk to the port within the overlay network
+      # without (over)exposing ports
+      - DB_PORT_NUMBER=5432
+      - MM_USERNAME=mmuser
+      - MM_PASSWORD=mmuser_password
+      - MM_DBNAME=mattermost
+      # pass the edition to be used, default is enterprise
+      # setting this env var will make the app use the team edition
+      - edition=team
+      # in case your config is not in default location
+      # - MM_CONFIG=/mattermost/config/config.json
+    deploy:
+      restart_policy:
+        condition: on-failure
+  web:
+    # use official mattermost prod-web image
+    image: mattermost/mattermost-prod-web
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - mm-out
+    volumes:
+      # This directory must have cert files
+      - /var/lib/mattermost/cert:/cert:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      # use app service's hostname
+      - APP_HOST=app
+      # talk to the port within the overlay network
+      # without (over)exposing ports
+      - APP_PORT_NUMBER=80
+    deploy:
+      restart_policy:
+       condition: on-failure
