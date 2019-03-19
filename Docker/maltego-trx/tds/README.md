@@ -1,3 +1,6 @@
+##NOTE: fig has been depricated by docker-compose, consider converting docker-file or building new image.
+
+
 maltego-tds-docker
 ============
 
