@@ -4,14 +4,18 @@
 #if ubuntu goto: line x etc...""
 
 #create an administrator password for the deployment services
-echo "please create and administrator password for the deployment"
-read password
-echo "your password is" |echo $password >> password.txt
-
-#create an administrator email for the deployment services
-echo "please create and administrator email for the deployment"
+echo please provide an email username and password that will serve as the default admin credentials throughout the deployment 
+echo email:
 read email
-echo "your email is" |echo $email >> password.txt
+echo username:
+read username
+echo password:
+read password
+echo email: $email >> credentials.txt
+echo username: $username >> credentials.txt
+echo password: $password >> credentials.txt
+
+#note: I know this isn't the most secure way to do this, brainstorming better ways
 
 #Update and upgrade Ubuntu
 sudo apt update &&
