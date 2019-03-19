@@ -1,0 +1,9 @@
+node_modules/
+bower_components/
+.sass-cache/
+.idea/
+.tmp/
+true!ng-annotate/
+dist/
+package-lock.json
+config/manifest.json
