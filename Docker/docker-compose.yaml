@@ -1,79 +1,123 @@
-version: "3"
-
+version: "2"
 services:
-  Kali:
-    image: kalilinux/kali-linux-docker
+  #portainer
+  
+  #cortex
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=0.0.0.0
+      - xpack.security.enabled=false
+      - cluster.name=hive
+      - script.inline=true
+      - thread_pool.index.queue_size=100000
+      - thread_pool.search.queue_size=100000
+      - thread_pool.bulk.queue_size=100000
+  cortex:
+    image: thehiveproject/cortex:latest
+    depends_on:
+      - elasticsearch
+    ports:
+      - "0.0.0.0:9001:9001"
+#misp
+  misp:
+    build: ./misp
+    image: misp:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
     volumes:
-      - kali:/
+      - /dev/urandom:/dev/urandom
+      - ./gpg/:/var/www/MISP/.gnupg
+      # Not required:     - ./config/config.php:/var/www/MISP/app/Config/config.php
+      # Not required:     - ./config/resque_config.php:/var/www/MISP/app/Plugin/CakeResque/Config/config.php:ro
     environment:
-      - CLUSTER_NAME=CTIA
-    env_file:
-      #- ./hadoop-hive.env
-    ports:
-      #- "50070:50070"
-      #- "vnc"
-  Mattermost:
-    image: mattermost/mattermost-prod-db
+      - MISP_BASEURL=http://localhost/
+      - REDIS_HOST=redis
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=misp
+      - MYSQL_USER=misp
+      - MYSQL_PASSWORD=misp
+      - POSTFIX_RELAY_HOST=relay.fqdn
+      - TIMEZONE=Europe/Brussels
+
+  redis:
+    image: redis
+    restart: unless-stopped
+
+  db:
+    image: mysql/mysql-server:5.7
+    restart: unless-stopped
     volumes:
-      - namenode:/hadoop/dfs/name
+      - ./data/db:/var/lib/mysql
     environment:
-      - CLUSTER_NAME=test
-    env_file:
-      - ./hadoop-hive.env
-    ports:
-      - "50070:50070"
-  MISP:
-    image: harvarditsecurity/misp
+      - MYSQL_DATABASE=misp
+      - MYSQL_USER=misp
+      - MYSQL_PASSWORD=misp
+      - MYSQL_ROOT_PASSWORD=misp
+#mattermost
+  db:
+    build: db
+    read_only: true
+    restart: unless-stopped
     volumes:
-      - datanode:/hadoop/dfs/data
-    env_file:
-      - ./hadoop-hive.env
+      - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
+      - /etc/localtime:/etc/localtime:ro
     environment:
-      SERVICE_PRECONDITION: "namenode:50070"
-    ports:
-      - "50075:50075"
-  hive-server:
-    image: thehiveproject/cortex
-    env_file:
-      - ./hadoop-hive.env
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=mmuser_password
+      - POSTGRES_DB=mattermost
+    # uncomment the following to enable backup
+    #  - AWS_ACCESS_KEY_ID=XXXX
+    #  - AWS_SECRET_ACCESS_KEY=XXXX
+    #  - WALE_S3_PREFIX=s3://BUCKET_NAME/PATH
+    #  - AWS_REGION=us-east-1
+
+  app:
+    build:
+      context: app
+      # uncomment following lines for team edition or change UID/GID
+      # args:
+      #   - edition=team
+      #   - PUID=1000
+      #   - PGID=1000
+    restart: unless-stopped
+    volumes:
+      - ./volumes/app/mattermost/config:/mattermost/config:rw
+      - ./volumes/app/mattermost/data:/mattermost/data:rw
+      - ./volumes/app/mattermost/logs:/mattermost/logs:rw
+      - ./volumes/app/mattermost/plugins:/mattermost/plugins:rw
+      - ./volumes/app/mattermost/client-plugins:/mattermost/client/plugins:rw
+      - /etc/localtime:/etc/localtime:ro
     environment:
-      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
-      SERVICE_PRECONDITION: "hive-metastore:9083"
-    ports:
-      - "10000:10000"
-  ejabberd:
-    image: rroemhild/ejabberd
-    env_file:
-      - ./hadoop-hive.env
-    command: /opt/hive/bin/hive --service metastore
-    environment:
-      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"
-    ports:
-      - "9083:9083"
-  hive-metastore-postgresql:
-    image: bde2020/hive-metastore-postgresql:2.3.0
-  presto-coordinator:
-    image: shawnzhu/prestodb:0.181
-    ports:
-      - "8080:8080"
+      # set same as db credentials and dbname
+      - MM_USERNAME=mmuser
+      - MM_PASSWORD=mmuser_password
+      - MM_DBNAME=mattermost
+      # in case your config is not in default location
+      #- MM_CONFIG=/mattermost/config/config.json
 
-volumes:
-  namenode:
-  datanode:
+  web:
+    build: web
+    ports:
+      - "80:80"
+      - "443:443"
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      # This directory must have cert files if you want to enable SSL
+      - ./volumes/web/cert:/cert:ro
+      - /etc/localtime:/etc/localtime:ro
+    # Uncomment for SSL
+    # environment:
+    #  - MATTERMOST_ENABLE_SSL=true
 
-
-#Kali
-docker pull kalilinux/kali-linux-docker &&
-#Mattermost
-docker pull mattermost/mattermost-prod-db &&
-#MISP
-docker pull harvarditsecurity/misp &&
-#Cortex
-docker pull thehiveproject/cortex &&
+#openvpn
+#cuckoo
 #ejabberd
-docker pull rroemhild/ejabberd &&
-#FreeNAS
-#Cuckoo
-docker pull blacktop/cuckoo &&
+#elk
+#kali
+#maltego-trx
+
 #taxii
-docker pull floatingghost/misp-taxii-server
