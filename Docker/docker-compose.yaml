@@ -156,7 +156,6 @@ services:
       - cuckoo
     env_file:
       - ./2.0/config-file.env
-
   api:
     depends_on:
       - postgres
@@ -173,7 +172,6 @@ services:
       - cuckoo
     env_file:
       - ./2.0/config-file.env
-
 # nginx:
 #   build: nginx/.
 #   depends_on:
@@ -184,7 +182,6 @@ services:
 #     - mongo
 #   networks:
 #     - cuckoo
-
   mongo:
     image: mongo
     ports:
@@ -193,7 +190,6 @@ services:
       - mongo-data:/data/db
     networks:
       - cuckoo
-
   elasticsearch:
     image: blacktop/elasticsearch:5.6
     ports:
@@ -202,7 +198,6 @@ services:
       - es-data:/usr/share/elasticsearch/data
     networks:
       - cuckoo
-
   postgres:
     image: postgres
     ports:
@@ -216,7 +211,6 @@ services:
       - postgres-data:/var/lib/postgresql/data/pgdata
     networks:
       - cuckoo
-
 networks:
   cuckoo:
     driver: bridge
