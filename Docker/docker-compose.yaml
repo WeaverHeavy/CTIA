@@ -25,7 +25,7 @@ version: "2"
       image: misp:latest
       restart: unless-stopped
       ports:
-        - "80:80"
+        - "8010:80"
       volumes:
         - /dev/urandom:/dev/urandom
         - ./gpg/:/var/www/MISP/.gnupg
@@ -94,8 +94,8 @@ version: "2"
     web:
       build: ./mattermost/web
       ports:
-        - "80:80"
-        - "443:443"
+        - "8020:80"
+        - "4432:443"
       read_only: true
       restart: unless-stopped
       volumes:
@@ -138,7 +138,7 @@ version: "2"
     web:
       image: blacktop/cuckoo:2.0
       ports:
-        - "80:31337"
+        - "8030:31337"
       links:
         - mongo
         - elasticsearch
@@ -157,7 +157,7 @@ version: "2"
         - postgres
       image: blacktop/cuckoo:2.0
       ports:
-        - "8000:1337"
+        - "8040:1337"
       links:
         - postgres
       command: api
@@ -174,7 +174,7 @@ version: "2"
 #   depends_on:
 #     - mongo
 #   ports:
-#     - "80:80"
+#     - "8050:80"
 #   links:
 #     - mongo
 #   networks:
