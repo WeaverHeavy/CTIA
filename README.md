@@ -1,6 +1,8 @@
 ![draft diagram](https://raw.githubusercontent.com/WeaverHeavy/CTIA/master/Draft%20Diagram.png)
 # Cyber Threat Intelligence Appliance (CTIA)
 
+**note: this is currently under development**
+
 GOALS:
 
 - Create a free, expandable, open-source, easily/rapidly deployable, Intelligence appliance for CSIRTs, CERTs, SOCs, etc.
@@ -39,10 +41,4 @@ GOALS:
 
 - Rancher: Container management/orchestration
 
-- Possibly some kali boxes with vnc, but we'll see.
-
-
-
-# Contact:
-
-If you would like to help or have any questions then shoot me an email: labs@whi.io
+- Possibly some kali and some forensics boxes with vnc, but we'll see.
