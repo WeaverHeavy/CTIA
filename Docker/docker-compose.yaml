@@ -123,6 +123,9 @@ services:
         - EJABBERD_USERS=admin@example.com:password4321 user1@xyz.io
 #kali
 #maltego-trx
+  maltego-trx:
+   image: asealey/maltego-tds-canari
+   ports:
 #taxii
 #cuckoo
   cuckoo:
