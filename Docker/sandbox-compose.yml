@@ -1,8 +1,7 @@
-#sandboxes
+#sandboxes go here
 version: "2"
 services:
 #FAME
-
 #cuckoo
   cuckoo:
     image: blacktop/cuckoo:2.0
