@@ -1,4 +1,7 @@
 #Intel Databases go here
+version: "2"
+services:
+
 #MISP
   misp:
     build:
