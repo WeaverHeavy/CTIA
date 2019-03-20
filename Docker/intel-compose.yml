@@ -1,1 +1,58 @@
-#intel databases will be in this
+#Intel Databases go here
+#MISP
+  misp:
+    build:
+      context: ./misp
+    image: misp:latest
+    restart: unless-stopped
+    ports:
+      - "8010:80"
+    volumes:
+      - /dev/urandom:/dev/urandom
+      - ./gpg/:/var/www/MISP/.gnupg
+    environment:
+      - MISP_BASEURL=http://localhost/
+      - REDIS_HOST=redis
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=misp
+      - MYSQL_USER=misp
+      - MYSQL_PASSWORD=misp
+      - POSTFIX_RELAY_HOST=relay.fqdn
+      - TIMEZONE=Europe/Brussels
+  redis:
+    image: redis
+    restart: unless-stopped
+  db:
+    image: mysql/mysql-server:5.7
+    restart: unless-stopped
+    volumes:
+      - ./data/db:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=misp
+      - MYSQL_USER=misp
+      - MYSQL_PASSWORD=misp
+      - MYSQL_ROOT_PASSWORD=misp
+#YETI
+#TAXII
+    db:
+        image: postgres:9.4
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: opentaxii
+
+    opentaxii:
+        image: eclecticiq/opentaxii
+        environment:
+            OPENTAXII_AUTH_SECRET: secret
+            OPENTAXII_DOMAIN: 192.168.59.103:9000
+            DATABASE_HOST: db
+            DATABASE_NAME: opentaxii
+            DATABASE_USER: user
+            DATABASE_PASS: password
+        volumes:
+            - ./:/input:ro
+        ports:
+            - 9000:9000
+        links:
+            - db:db

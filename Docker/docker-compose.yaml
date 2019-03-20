@@ -1,7 +1,7 @@
 version: "2"
 services:
-#portainer
-#cortex
+
+#Cortex
   cortex:
     image: thehiveproject/cortex:latest
     depends_on:
@@ -19,7 +19,7 @@ services:
       - thread_pool.index.queue_size=100000
       - thread_pool.search.queue_size=100000
       - thread_pool.bulk.queue_size=100000
-#misp
+#MISP
   misp:
     build:
       context: ./misp
