@@ -1,14 +1,14 @@
 version: "2"
-  services:
+services:
 #portainer
 #cortex
-    cortex:
+  cortex:
       image: thehiveproject/cortex:latest
       depends_on:
         - elasticsearch
       ports:
         - "0.0.0.0:9001:9001"
-    elasticsearch:
+  elasticsearch:
       image: docker.elastic.co/elasticsearch/elasticsearch:5.6.0
       environment:
         - http.host=0.0.0.0
@@ -18,10 +18,11 @@ version: "2"
         - script.inline=true
         - thread_pool.index.queue_size=100000
         - thread_pool.search.queue_size=100000
-        - thread_pool.bulk.queue_size=100000    
+        - thread_pool.bulk.queue_size=100000
 #misp
-    misp:
-      build: ./misp
+  misp:
+      build:
+        context: ./misp
       image: misp:latest
       restart: unless-stopped
       ports:
@@ -38,10 +39,10 @@ version: "2"
         - MYSQL_PASSWORD=misp
         - POSTFIX_RELAY_HOST=relay.fqdn
         - TIMEZONE=Europe/Brussels
-    redis:
+  redis:
       image: redis
       restart: unless-stopped
-    db:
+  db:
       image: mysql/mysql-server:5.7
       restart: unless-stopped
       volumes:
@@ -52,8 +53,9 @@ version: "2"
         - MYSQL_PASSWORD=misp
         - MYSQL_ROOT_PASSWORD=misp
 #mattermost
-    db:
-      build: ./mattermost/db
+  db:
+      build:
+        context: ./mattermost/db
       read_only: true
       restart: unless-stopped
       volumes:
@@ -68,7 +70,7 @@ version: "2"
       #  - AWS_SECRET_ACCESS_KEY=XXXX
       #  - WALE_S3_PREFIX=s3://BUCKET_NAME/PATH
       #  - AWS_REGION=us-east-1
-    app:
+  app:
       build:
         context: ./mattermost/app
         # uncomment following lines for team edition or change UID/GID
@@ -91,8 +93,9 @@ version: "2"
         - MM_DBNAME=mattermost
         # in case your config is not in default location
         #- MM_CONFIG=/mattermost/config/config.json
-    web:
-      build: ./mattermost/web
+  web:
+      build:
+        context: ./mattermost/web
       ports:
         - "8020:80"
         - "4432:443"
@@ -107,7 +110,7 @@ version: "2"
       #  - MATTERMOST_ENABLE_SSL=true
 #openvpn
 #ejabberd
-    ejabberd:
+  ejabberd:
       image: rroemhild/ejabberd
       ports:
         - 5222:5222
@@ -122,8 +125,7 @@ version: "2"
 #maltego-trx
 #taxii
 #cuckoo
-#cuckoo
-    cuckoo:
+  cuckoo:
       image: blacktop/cuckoo:2.0
       command: daemon
       ports:
@@ -135,7 +137,7 @@ version: "2"
         - cuckoo
       env_file:
         - ./2.0/config-file.env
-    web:
+  web:
       image: blacktop/cuckoo:2.0
       ports:
         - "8030:31337"
@@ -152,7 +154,7 @@ version: "2"
       env_file:
         - ./2.0/config-file.env
 
-    api:
+  api:
       depends_on:
         - postgres
       image: blacktop/cuckoo:2.0
@@ -180,8 +182,8 @@ version: "2"
 #   networks:
 #     - cuckoo
 
-    mongo:
-      image: mongo
+  mongo:
+     image: mongo
       ports:
         - 27017
       volumes:
@@ -189,7 +191,7 @@ version: "2"
       networks:
         - cuckoo
 
-    elasticsearch:
+  elasticsearch:
       image: blacktop/elasticsearch:5.6
       ports:
         - 9200
@@ -198,7 +200,7 @@ version: "2"
       networks:
         - cuckoo
 
-    postgres:
+  postgres:
       image: postgres
       ports:
         - 5432
