@@ -5,12 +5,12 @@ services:
 #kali-linux
 Kali:
   image: kalilinux/kali-linux-docker
-  command: daemon
+#  command: apt-get update && apt-get install maltego nmap
   ports:
-    - "2042:2042"
+    - 2200:22
   volumes:
-    - ./cuckoo-tmp/:/tmp/cuckoo-tmp/
-    - ./storage/:/cuckoo/storage/
+    - //://
+
 #openvpn
 
 #ejabberd
