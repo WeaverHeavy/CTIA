@@ -4,7 +4,8 @@ FROM ubuntu:16.04
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install YETI dependencies
-RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y && apt-get install -y --no-install-suggests --no-install-recommends \
+RUN apt-get update && \
+apt-get upgrade -y && apt-get autoremove -y && apt-get install -y --no-install-suggests --no-install-recommends \
   build-essential \
   python-dev \
   libxml2-dev \
