@@ -2,7 +2,6 @@
 #add yeti and consider otx-misp application as a docker container
 version: "2"
 services:
-
 #MISP
   misp:
     build:
@@ -36,11 +35,27 @@ services:
       - MYSQL_USER=misp
       - MYSQL_PASSWORD=misp
       - MYSQL_ROOT_PASSWORD=misp
-
 #YETI
-#I need to convert the docker-compose file to version 2 before I can add this
-#./yeti/docker
+  yeti:
+    build:
+      context: ./yeti/
+      dockerfile: ./yeti/Dockerfile 
+    image: yeti-platform
+    ports:
+      - 5000:5000
+    links:
+      - redis
+      - mongodb
+    restart: always
 
+  redis:
+    image: redis:latest
+
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGO_LOG_DIR=/dev/null
+    command: mongod
 #TAXII
   db:
     image: postgres:9.4
