@@ -1,3 +1,5 @@
+#analyst workstation containers should go here, considering just using virtualbox but unsure just yet
+#todo: add maltego transform server, finalize kali linux container, figure out an openvpn solution
 version: "2"
 services:
 #maltego-trx
@@ -5,7 +7,7 @@ services:
 #kali-linux
 Kali:
   image: kalilinux/kali-linux-docker
-#  command: apt-get update && apt-get install maltego nmap
+#  command: apt-get update && apt-get install maltego nmap -y
   ports:
     - 2200:22
   volumes:

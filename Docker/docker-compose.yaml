@@ -1,3 +1,4 @@
+#I will probably move away from one giant docker-compose file and just focus on several smaller stacks
 version: "2"
 services:
 

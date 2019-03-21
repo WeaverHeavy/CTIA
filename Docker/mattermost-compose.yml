@@ -1,3 +1,4 @@
+#optional mattermost stack for internal communication
 version: "2"
 services:
 #mattermost

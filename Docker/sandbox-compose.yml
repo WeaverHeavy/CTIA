@@ -1,4 +1,5 @@
-#sandboxes go here
+#sandboxes for automated detonation and pulling IOCs from samples for further enrichment
+#todo: add fame docker container, consider consolidating elasticsearch instances
 version: "2"
 services:
 #FAME
