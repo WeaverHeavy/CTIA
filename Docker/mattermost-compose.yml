@@ -45,7 +45,7 @@ services:
       context: ./mattermost/web
       dockerfile: Dockerfile
     ports:
-      - "8020:80"
+      - "8085:80"
       - "4432:443"
     read_only: true
     restart: unless-stopped
