@@ -10,12 +10,12 @@ services:
     ports:
       - "2042:2042"
     volumes:
-      - ./cuckoo-tmp/:/tmp/cuckoo-tmp/
-      - ./storage/:/cuckoo/storage/
+      - ./cuckoo/cuckoo/cuckoo-tmp/:/tmp/cuckoo-tmp/
+      - ./cuckoo/cuckoo/storage/:/cuckoo/storage/
     networks:
       - cuckoo
     env_file:
-      - ./2.0/config-file.env
+      - ./cuckoo/cuckoo/2.0/config-file.env
   web:
     image: blacktop/cuckoo:2.0
     ports:
@@ -26,12 +26,12 @@ services:
       - postgres
     command: web
     volumes:
-      - ./cuckoo-tmp/:/tmp/cuckoo-tmp/
-      - ./storage/:/cuckoo/storage/
+      - ./cuckoo/cuckoo/cuckoo-tmp/:/tmp/cuckoo-tmp/
+      - ./cuckoo/cuckoo/storage/:/cuckoo/storage/
     networks:
       - cuckoo
     env_file:
-      - ./2.0/config-file.env
+      - ./cuckoo/cuckoo/2.0/config-file.env
   api:
     depends_on:
       - postgres
@@ -42,12 +42,12 @@ services:
       - postgres
     command: api
     volumes:
-      - ./cuckoo-tmp/:/tmp/cuckoo-tmp/
-      - ./storage/:/cuckoo/storage/
+      - ./cuckoo/cuckoo/cuckoo-tmp/:/tmp/cuckoo-tmp/
+      - ./cuckoo/cuckoo/storage/:/cuckoo/storage/
     networks:
       - cuckoo
     env_file:
-      - ./2.0/config-file.env
+      - ./cuckoo/cuckoo/2.0/config-file.env
 # nginx:
 #   build: nginx/.
 #   depends_on:
@@ -71,7 +71,7 @@ services:
     ports:
       - 9200
     volumes:
-      - es-data:/usr/share/elasticsearch/data
+      - ./cuckoo/cuckoo/es-data:/usr/share/elasticsearch/data
     networks:
       - cuckoo
   postgres:
@@ -79,20 +79,14 @@ services:
     ports:
       - 5432
     environment:
-      - POSTGRES_USER: postgres
-      - POSTGRES_PASSWORD: cuckoo
-      - PGDATA: /var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=cuckoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
       # POSTGRES_INITDB_ARGS: --data-checksums
     volumes:
-      - postgres-data:/var/lib/postgresql/data/pgdata
+      - ./cuckoo/cuckoo/postgres-data:/var/lib/postgresql/data/pgdata
     networks:
       - cuckoo
 networks:
   cuckoo:
     driver: bridge
-
-volumes:
-cuckoo-data:
-mongo-data:
-es-data:
-postgres-data:
