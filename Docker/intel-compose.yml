@@ -1,5 +1,5 @@
 #Intel Databases go here
-#add yeti and consider otx-misp application as a docker container
+#working
 version: "2"
 services:
 #MISP
@@ -38,8 +38,8 @@ services:
 #YETI
   yeti:
     build:
-      context: ./yeti/
-      dockerfile: ./yeti/Dockerfile 
+      context: ./yeti
+      dockerfile: Dockerfile 
     image: yeti-platform
     ports:
       - 8082:5000
