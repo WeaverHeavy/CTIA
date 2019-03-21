@@ -5,7 +5,7 @@ services:
 #MISP
   misp:
     build:
-      context: ./misp
+      context: ./misp/container
     image: misp:latest
     restart: unless-stopped
     ports:
@@ -36,6 +36,7 @@ services:
       - MYSQL_PASSWORD=misp
       - MYSQL_ROOT_PASSWORD=misp
 #YETI
+./yeti/extras/docker
 #TAXII
   db:
     image: postgres:9.4
