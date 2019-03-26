@@ -43,9 +43,9 @@ services:
     image: yeti-platform
     ports:
       - 8082:5000
-    #links:
-    #  - yeti_redis
-      - mongodb
+#links:
+#  - yeti_redis
+#  - mongodb
     restart: unless-stopped
 
   yeti_redis:
