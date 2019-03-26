@@ -56,7 +56,7 @@ RUN pip install -r requirements.txt && \
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/
 RUN groupadd yeti && \
         useradd -r --home-dir /opt/yeti -g yeti yeti && \
-        mv extras/docker/scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh && \
+        mv scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh && \
         chmod 755 /usr/local/bin/wait-for-it.sh /usr/local/bin/docker-entrypoint.sh && \
         chown -R yeti.yeti /opt/yeti
 RUN mkdir /var/log/yeti; chown yeti /var/log/yeti
