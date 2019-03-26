@@ -15,17 +15,17 @@ services:
       - ./gpg/:/var/www/MISP/.gnupg
     environment:
       - MISP_BASEURL=http://localhost/
-      - REDIS_HOST=redis
-      - MYSQL_HOST=db
+      - REDIS_HOST=misp_redis
+      - MYSQL_HOST=misp_db
       - MYSQL_DATABASE=misp
       - MYSQL_USER=misp
       - MYSQL_PASSWORD=misp
       - POSTFIX_RELAY_HOST=relay.fqdn
       - TIMEZONE=Europe/Brussels
-  redis:
+  misp_redis:
     image: redis
     restart: unless-stopped
-  db:
+  misp_db:
     image: mysql/mysql-server:5.7
     restart: unless-stopped
     volumes:
@@ -43,12 +43,12 @@ services:
     image: yeti-platform
     ports:
       - 8082:5000
-    links:
-      - redis
+    #links:
+    #  - yeti_redis
       - mongodb
-    restart: always
+    restart: unless-stopped
 
-  redis:
+  yeti_redis:
     image: redis:latest
 
   mongodb:
@@ -57,7 +57,7 @@ services:
       - MONGO_LOG_DIR=/dev/null
     command: mongod
 #TAXII
-  db:
+  taxii_db:
     image: postgres:9.4
     environment:
       - POSTGRES_USER=user
@@ -75,10 +75,10 @@ services:
     image: eclecticiq/opentaxii
     environment:
       - OPENTAXII_AUTH_SECRET=secret
-      - OPENTAXII_DOMAIN=localhost:8085
+      - OPENTAXII_DOMAIN=localhost:8083
       - OPENTAXII_USER=user
       - OPENTAXII_PASS=pass
-      - DATABASE_HOST=db
+      - DATABASE_HOST=taxi_db
       - DATABASE_NAME=opentaxii
       - DATABASE_USER=user
       - DATABASE_PASS=password
@@ -91,7 +91,7 @@ services:
     ports:
       - 8083:9000
     links:
-      - db:db
+    #  - db:db
       - authdb:authdb
 
   
