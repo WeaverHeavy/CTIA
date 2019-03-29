@@ -9,6 +9,8 @@ GOALS:
 
 - Utilize docker containers or a private cloud setup that includes instances of well documented/supported cyber threat intelligence tools
 
+- The entire stack is split up into several docker-compose files so that you can individually deploy seperate components of the stack if you only need certain functionality
+
 
 # Candidate tools:
 
