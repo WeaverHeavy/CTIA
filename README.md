@@ -21,7 +21,7 @@ GOALS:
 
 - Cortex: Indicator Enrichment
 
-- YETI: threat feed/IOC aggregator, some link analysis, and YARA capability
+- YETI: threat feed/IOC aggregator, some link analysis, and YARA capability (I may skip this one)
 
 - STIX/TAXII: threat feeds and IOC sharing
 
@@ -39,6 +39,6 @@ GOALS:
 
 - ELK stack: (optional) if your team doesn't already use this
 
-- Rancher: Container management/orchestration
+- portainer: Container management/orchestration
 
 - Possibly some kali and some forensics boxes with vnc, but we'll see.
