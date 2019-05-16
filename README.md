@@ -1,4 +1,4 @@
-![draft diagram](https://raw.githubusercontent.com/WeaverHeavy/CTIA/master/Draft%20Diagram.png)
+![draft diagram](https://raw.githubusercontent.com/WeaverHeavy/CTIA/master/Docs/Draft%20Diagram.png)
 # Cyber Threat Intelligence Appliance (CTIA)
 
 **note: this is currently under development**
