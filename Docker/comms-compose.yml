@@ -14,17 +14,13 @@ services:
     environment:
       - POSTGRES_USER=mmuser
       - POSTGRES_PASSWORD=mmuser_password
-      - POSTGRES_DB=mattermost
-  
+      - POSTGRES_DB=mattermost  
   app:
     build:
       context: ./mattermost/app
-      dockerfile: Dockerfile
-      # uncomment following lines for team edition or change UID/GID
-      # args:
-      #   - edition=team
-      #   - PUID=1000
-      #   - PGID=1000
+      dockerfile: Dockerfile      
+       args:
+         - edition=team
     restart: unless-stopped
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
@@ -56,3 +52,10 @@ services:
     # Uncomment for SSL
     # environment:
     #  - MATTERMOST_ENABLE_SSL=true
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
