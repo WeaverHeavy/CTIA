@@ -106,8 +106,9 @@ angular-file-saver@^1.1.3:
     blob-tmp "^1.0.0"
     file-saver "^1.3.3"
 
-"angular-google-analytics@github:revolunet/angular-google-analytics#~1.1.9":
+"angular-google-analytics@github:revolunet/angular-google-analytics#semver:~1.1.9":
   version "1.1.8"
+  uid "92768a525870bc066dcf85fbe9d9f115358a6d91"
   resolved "https://codeload.github.com/revolunet/angular-google-analytics/tar.gz/92768a525870bc066dcf85fbe9d9f115358a6d91"
 
 angular-json-tree@1.0.1:
@@ -2404,13 +2405,9 @@ isteven-angular-multiselect@~4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/isteven-angular-multiselect/-/isteven-angular-multiselect-4.0.0.tgz#70276da5ff3bc4d9a0887dc585ee26a1a26a8ed6"
 
-jquery@>=1.12.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
-
-jquery@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
+jquery@>=1.12.0, jquery@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.0.tgz#9980b97d9e4194611c36530e7dc46a58d7340fc9"
 
 js-base64@^2.1.9:
   version "2.4.0"
@@ -3990,8 +3987,9 @@ split@0.3:
   dependencies:
     through "2"
 
-"splitargs@github:deviantony/splitargs#~0.2.0":
+"splitargs@github:deviantony/splitargs#semver:~0.2.0":
   version "0.0.7"
+  uid "2a87a1dfb1f9698b94e28e3106ad34057841dbd1"
   resolved "https://codeload.github.com/deviantony/splitargs/tar.gz/2a87a1dfb1f9698b94e28e3106ad34057841dbd1"
 
 sprintf-js@~1.0.2:
@@ -4202,9 +4200,10 @@ tinycolor@0.x:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/tinycolor/-/tinycolor-0.0.1.tgz#320b5a52d83abb5978d81a3e887d4aefb15a6164"
 
-"toastr@github:CodeSeven/toastr#~2.1.3":
-  version "2.1.3"
-  resolved "https://codeload.github.com/CodeSeven/toastr/tar.gz/154358244d380445d742a3f539877a1aa7f954cf"
+"toastr@github:CodeSeven/toastr#semver:~2.1.3":
+  version "2.1.4"
+  uid "1ef00d723691b563b610077a08539391386826b3"
+  resolved "https://codeload.github.com/CodeSeven/toastr/tar.gz/1ef00d723691b563b610077a08539391386826b3"
   dependencies:
     jquery ">=1.12.0"
 
