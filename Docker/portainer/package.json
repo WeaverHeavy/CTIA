@@ -32,7 +32,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
     "@uirouter/angularjs": "~1.0.6",
-    "angular": "~1.5.0",
+    "angular": "~1.8.0",
     "angular-clipboard": "^1.6.2",
     "angular-cookies": "~1.5.0",
     "angular-file-saver": "^1.1.3",
