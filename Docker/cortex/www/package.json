@@ -53,7 +53,7 @@
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.22.0",
     "jquery": "^3.2.1",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.19",
     "manifest-revision-webpack-plugin": "^0.3.0",
     "moment": "^2.20.1",
     "ng-storage": "^0.3.2",
