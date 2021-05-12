@@ -53,7 +53,7 @@
     "bootbox": "^4.4.0",
     "bootstrap": "^3.4.0",
     "chart.js": "~2.6.0",
-    "codemirror": "~5.30.0",
+    "codemirror": "~5.58.2",
     "filesize": "~3.3.0",
     "isteven-angular-multiselect": "~4.0.0",
     "jquery": "^3.3.1",
