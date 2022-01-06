@@ -5,7 +5,7 @@ babel==2.6.0
 beautifulsoup4==4.6.3
 billiard==3.5.0.4
 blinker==1.4
-celery==4.2.1
+celery==5.2.2
 certifi==2018.10.15
 chardet==3.0.4
 click-plugins==1.0.4
