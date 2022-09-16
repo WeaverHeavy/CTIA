@@ -106,8 +106,9 @@ angular-file-saver@^1.1.3:
     blob-tmp "^1.0.0"
     file-saver "^1.3.3"
 
-"angular-google-analytics@github:revolunet/angular-google-analytics#~1.1.9":
+"angular-google-analytics@github:revolunet/angular-google-analytics#semver:~1.1.9":
   version "1.1.8"
+  uid "92768a525870bc066dcf85fbe9d9f115358a6d91"
   resolved "https://codeload.github.com/revolunet/angular-google-analytics/tar.gz/92768a525870bc066dcf85fbe9d9f115358a6d91"
 
 angular-json-tree@1.0.1:
@@ -405,9 +406,9 @@ bootbox@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-4.4.0.tgz#ff7f898fb87d4527e547feb64158f88450d1a0c9"
 
-bootstrap@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.4.0.tgz#f8d77540dd3062283d2ae7687e21c1e691961640"
+bootstrap@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.4.1.tgz#c3a347d419e289ad11f4033e3c4132b87c081d72"
 
 brace-expansion@^1.0.0, brace-expansion@^1.1.7:
   version "1.1.8"
@@ -3990,8 +3991,9 @@ split@0.3:
   dependencies:
     through "2"
 
-"splitargs@github:deviantony/splitargs#~0.2.0":
+"splitargs@github:deviantony/splitargs#semver:~0.2.0":
   version "0.0.7"
+  uid "2a87a1dfb1f9698b94e28e3106ad34057841dbd1"
   resolved "https://codeload.github.com/deviantony/splitargs/tar.gz/2a87a1dfb1f9698b94e28e3106ad34057841dbd1"
 
 sprintf-js@~1.0.2:
@@ -4202,9 +4204,10 @@ tinycolor@0.x:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/tinycolor/-/tinycolor-0.0.1.tgz#320b5a52d83abb5978d81a3e887d4aefb15a6164"
 
-"toastr@github:CodeSeven/toastr#~2.1.3":
-  version "2.1.3"
-  resolved "https://codeload.github.com/CodeSeven/toastr/tar.gz/154358244d380445d742a3f539877a1aa7f954cf"
+"toastr@github:CodeSeven/toastr#semver:~2.1.3":
+  version "2.1.4"
+  uid "1ef00d723691b563b610077a08539391386826b3"
+  resolved "https://codeload.github.com/CodeSeven/toastr/tar.gz/1ef00d723691b563b610077a08539391386826b3"
   dependencies:
     jquery ">=1.12.0"
 
